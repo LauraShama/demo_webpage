@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Info</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"></head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-md mx-auto bg-white rounded-x1 shadow-md overflow-hidden md:max-w-2x1">
+        <div class="md:flex">
+                <div class="p-8">
+                    <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Credit Information</div>
+                    <label for="userId" class="block mt-4">User Id</label>
+                    <input type="text" id="userId" name="userId" class="border p-2 w-full mt-1">
+                    <button onclick="fetchCreditInfo()"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Check</button>
+                    <div id="result" class="mt-4"></div>
+                </div>
+                </div>
+        </div>
+        <script>
+            async function fetchCreditInfo() {
+                const userId = document.getElementById('userId').value;
+                const response = await fecth('/credit/info/${userId}/');
+                const data = await response.json();
+                const resultDiv = document.getElementById('result');
+                if (response.ok) {
+                    resultDiv.innerHTML = 'Credit limit: ${data.credit_limit} <br>Account Balance: $ {data.account_balance}'; 
+                } else {
+                    resultDiv.innerHTML = data.error || 'Failed to fetch data.';
+                    
+                }
+                
+            }
+        </script>
+</body>
+</html>
